@@ -44,21 +44,23 @@ $total_page = ceil($total_results / $limit);
 </head>
 
 <body>
-
+   
+    <?php include("../smell-project/style.php") ?>
     <div class="container">
+        <h1>users</h1>
         <div class="d-flex justify-content-between">
             <div class="py-4">
-            <?php if (isset($_GET['search']) && !empty($search)): ?>
-                <div class="py-1">
-                    <a href="pdo-users.php" class="btn btn-primary" title="回到使用者列表"><i class="fa-solid fa-left-long"></i></a>
-                </div>
-            <?php endif; ?>
+                <?php if (isset($_GET['search']) && !empty($search)): ?>
+                    <div class="py-1">
+                        <a href="pdo-users.php" class="btn btn-primary" title="回到使用者列表"><i class="fa-solid fa-left-long"></i></a>
+                    </div>
+                <?php endif; ?>
                 <div class="">
-                共<?= $rowCount ?>使用者
+                    共<?= $rowCount ?>使用者
                 </div>
-              
+
             </div>
-            
+
             <div class="py-3 text-end col-md-auto">
                 <a href="pdo-create-user.php" class="btn btn-info" title="新增使用者"><i class="fa-solid fa-user-plus"></i></a>
             </div>
@@ -68,27 +70,22 @@ $total_page = ceil($total_results / $limit);
     </div>
     <div class="container">
         <div class="py-2 ">
-            <form action="" method="get">
-                <div class="input-group">
-                    <input type="search" value="<?= $_GET['search'] ?? "" ?>" class="form-control" name="search">
-                    <button class="btn-primary btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </form>
+            
         </div>
-        <table class="table table-bordered " >
+        <table class="table table-bordered ">
             <thead class="">
                 <tr class="">
-                    <th class="text-danger bg-light " onclick="window.location.href='?sort_column=id&order=<?= $order === 'ASC' ? 'DESC' : 'ASC'; ?>&p=<?= $p ?>&search=<?= $search ?>'">ID
+                    <th class="text-danger " style="width: 80px; cursor: pointer;" onclick="window.location.href='?sort_column=id&order=<?= $order === 'ASC' ? 'DESC' : 'ASC'; ?>&p=<?= $p ?>&search=<?= $search ?>'">ID
                         <?php if ($sort_column == 'id'): ?>
                             <i class="fa-solid fa-caret-<?= $order === 'DESC' && $sort_column === 'id' ? 'up' : 'down'; ?>"></i>
                         <?php endif; ?>
                     </th>
-                    <th onclick="window.location.href='?sort_column=account&order=<?= $order === 'ASC' ? 'DESC' : 'ASC'; ?>&p=<?= $p ?>&search=<?= $search ?>'">帳號
+                    <th style="width: 200px; cursor: pointer;" onclick="window.location.href='?sort_column=account&order=<?= $order === 'ASC' ? 'DESC' : 'ASC'; ?>&p=<?= $p ?>&search=<?= $search ?>'">帳號
                         <?php if ($sort_column == 'account'): ?>
                             <i class="fa-solid fa-caret-<?= $order === 'DESC' && $sort_column === 'account' ? 'up' : 'down'; ?>"></i>
                         <?php endif; ?>
                     </th>
-                    <th onclick="window.location.href='?sort_column=name&order=<?= $order === 'ASC' ? 'DESC' : 'ASC' ?>&p=<?= $p ?>&search=<?= $search ?>'">姓名
+                    <th style="width: 120px; cursor: pointer;" onclick="window.location.href='?sort_column=name&order=<?= $order === 'ASC' ? 'DESC' : 'ASC' ?>&p=<?= $p ?>&search=<?= $search ?>'">姓名
                         <?php if ($sort_column == 'name'): ?>
                             <i class="fa-solid fa-caret-<?= $order === 'DESC' && $sort_column === 'name' ? 'up' : 'down'; ?>"></i>
                         <?php endif; ?>
@@ -107,18 +104,28 @@ $total_page = ceil($total_results / $limit);
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <?php if ($total_page >= 1): ?>
+        <?php if ($total_page > 5): ?>
             <nav class="me-2">
                 <ul class="pagination justify-content-center">
                     <?php for ($i = 1; $i <= $total_page; $i++) : ?>
                         <li class="page-item <?php if ($i == $p) echo 'active'; ?>">
                             <a class="page-link" href="pdo-users.php?sort_column=<?= $sort_column ?>&order=<?= $order ?>&p=<?= $i ?>&search=<?= $search ?>"><?= $i; ?></a>
-
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+        <?php else: ?>
+            <nav class="me-2">
+                <ul class="pagination justify-content-center">
+                    <?php for ($i = 1; $i <= $total_page; $i++) : ?>
+                        <li class="page-item <?php if ($i == $p) echo 'active'; ?>">
+                            <a class="page-link" href="pdo-users.php?sort_column=<?= $sort_column ?>&order=<?= $order ?>&p=<?= $i ?>&search=<?= $search ?>"><?= $i; ?></a>
                         </li>
                     <?php endfor; ?>
                 </ul>
             </nav>
         <?php endif; ?>
+
     </div>
     </div>
 
